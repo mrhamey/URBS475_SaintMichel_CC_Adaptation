@@ -29,7 +29,7 @@
         <div id="legend-panel">
 
     <div id="layerToggle">
-        <h3>Layers</h3>
+        <h3>Layers (click the layer you would like to consult)</h3>
         <label><input type="checkbox" data-layer="layer_VCC_clipped_rains_1"> Vulnerability to Heavy Rains</label><br>
         <label><input type="checkbox" data-layer="layer_cuvettes"> Hydrological Surface Depressions</label><br>
         <label><input type="checkbox" data-layer="layer_VCC_clipped_drought_2"> Vulnerability to Drought</label><br>
@@ -39,6 +39,9 @@
         <label><input type="checkbox" data-layer="layer_LanduseSM_7"> Land Use in the Neighbourhood</label><br>
         <label><input type="checkbox" data-layer="layer_greenspaces_SM_8"> Green Spaces</label><br>
         <label><input type="checkbox" data-layer="layer_publicfacilities"> Public Facilities</label><br>
+        <label><input type="checkbox" data-layer="layer_CISR">Canadian Index of Social Resilience 2021</label><br>
+        <label><input type="checkbox" data-layer="layer_CISV">Canadian Index of Social Vulnerability 2021</label>
+
     </div>
 
     <div id="legend-container"></div>
@@ -91,6 +94,8 @@ Click on the various layer toggles in the legend at the bottom left to explore v
         <script src="data/greenspaces_SM_8.js"></script>
         <script src="data/publicfacilities.js"></script>
         <script src="data/cuvettes.js"></script>
+        <script src="data/CISV.js"></script>
+        <script src="data/CISR.js"></script>
         <script>
         var map = L.map('map', {
                 zoomControl: false,
@@ -577,60 +582,7 @@ Click on the various layer toggles in the legend at the bottom left to explore v
         });
         bounds_group.addLayer(layer_UHI_SM_5);
         
-        function pop_VCC_clipped_heat_6(feature, layer) {
-            var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['FID'] !== null ? autolinker.link(String(feature.properties['FID']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['PageName'] !== null ? autolinker.link(String(feature.properties['PageName']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['PageNumber'] !== null ? autolinker.link(String(feature.properties['PageNumber']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['ChaleurCl'] !== null ? autolinker.link(String(feature.properties['ChaleurCl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['SecheresCl'] !== null ? autolinker.link(String(feature.properties['SecheresCl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['TempeteCl'] !== null ? autolinker.link(String(feature.properties['TempeteCl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['PluiesCl'] !== null ? autolinker.link(String(feature.properties['PluiesCl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['CruesCl'] !== null ? autolinker.link(String(feature.properties['CruesCl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['ChaleurCat'] !== null ? autolinker.link(String(feature.properties['ChaleurCat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['PluiesCat'] !== null ? autolinker.link(String(feature.properties['PluiesCat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['SechereCat'] !== null ? autolinker.link(String(feature.properties['SechereCat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['CruesCat'] !== null ? autolinker.link(String(feature.properties['CruesCat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['TempeteCat'] !== null ? autolinker.link(String(feature.properties['TempeteCat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['SHAPE_Leng'] !== null ? autolinker.link(String(feature.properties['SHAPE_Leng']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['SHAPE_Area'] !== null ? autolinker.link(String(feature.properties['SHAPE_Area']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
-        }
+        
 
         function style_VCC_clipped_heat_6_0(feature) {
             if (feature.properties['ChaleurCl'] >= 0.500000 && feature.properties['ChaleurCl'] <= 1.500000 ) {
@@ -993,9 +945,64 @@ var layer_publicfacilities = L.geoJson(json_publicfacilities, {
         });
     }
 });
+//CISV 
+function style_CISV(feature) {
+    const v = Number(feature.properties["cisv_scores_quintiles-eng_CISV Quintiles"]);
 
-// DO NOT add to map automatically
-// It will be added only when checkbox is checked.
+    if (v === 1) return { pane: 'pane_CISV', color: '#444', weight: 1, fillColor: '#fff5eb', fillOpacity: 1 };
+    if (v === 2) return { pane: 'pane_CISV', color: '#444', weight: 1, fillColor: '#fdcc8a', fillOpacity: 1 };
+    if (v === 3) return { pane: 'pane_CISV', color: '#444', weight: 1, fillColor: '#fc8d59', fillOpacity: 1 };
+    if (v === 4) return { pane: 'pane_CISV', color: '#444', weight: 1, fillColor: '#d7301f', fillOpacity: 1 };
+    return            { pane: 'pane_CISV', color: '#444', weight: 1, fillColor: '#7f0000', fillOpacity: 1 };
+}
+
+
+map.createPane("pane_CISV");
+map.getPane("pane_CISV").style.zIndex = 451;
+
+var layer_CISV = L.geoJson(json_CISV, {
+    attribution: "",
+    interactive: true,
+    dataVar: "json_CISV",
+    layerName: "layer_CISV",
+    pane: "pane_CISV",
+    onEachFeature: function(){},
+    style: style_CISV
+});
+
+window.layer_CISV = layer_CISV;
+bounds_group.addLayer(layer_CISV);
+
+
+//CISR
+function style_CISR(feature) {
+    const v = Number(feature.properties["cisr_scores_quintiles-eng_CISR Quintiles"]);
+
+    if (v === 1) return { pane: 'pane_CISR', color: '#444', weight: 1, fillColor: '#f7fbff', fillOpacity: 1 };
+    if (v === 2) return { pane: 'pane_CISR', color: '#444', weight: 1, fillColor: '#c8dcf0', fillOpacity: 1 };
+    if (v === 3) return { pane: 'pane_CISR', color: '#444', weight: 1, fillColor: '#73b2d8', fillOpacity: 1 };
+    if (v === 4) return { pane: 'pane_CISR', color: '#444', weight: 1, fillColor: '#2979b9', fillOpacity: 1 };
+    return            { pane: 'pane_CISR', color: '#444', weight: 1, fillColor: '#08306b', fillOpacity: 1 };
+}
+
+map.createPane("pane_CISR");
+map.getPane("pane_CISR").style.zIndex = 450;
+
+var layer_CISR = L.geoJson(json_CISR, {
+    attribution: "",
+    interactive: true,
+    dataVar: "json_CISR",
+    layerName: "layer_CISR",
+    pane: "pane_CISR",
+    onEachFeature: function(){},
+    style: style_CISR
+});
+
+window.layer_CISR = layer_CISR;
+bounds_group.addLayer(layer_CISR);
+
+
+
         
 
 // --------------------
@@ -1067,8 +1074,48 @@ const legends = {
         <h3>Green spaces (hover on map to see names)</h3>
         <div><span style="background:#b2df8a;border:1px solid #333"></span> Green Space</div>
     `,
-
     
+    "layer_CISV": `
+    <h3>Canadian Index of Social Vulnerability - Quintiles</h3>
+    <p> Assesses the vulnerability of communities to natural hazards and disasters, and data is classified into national-level quintiles. </p>
+    <div><span style="background:#fff5eb"></span> 1 - Least vulnerable</div>
+    <div><span style="background:#fdcc8a"></span> 2 </div>
+    <div><span style="background:#fc8d59"></span> 3 </div>
+    <div><span style="background:#d7301f"></span> 4 </div>
+    <div><span style="background:#7f0000"></span> 5 - Most vulnerable</div>
+`,
+"layer_CISR": `
+    <h3>Canadian Index of Social Resilience - Quintiles</h3>
+    <p> Assesses the resilience of communities to natural hazards and disasters, and data is classified into national-level quintiles. </p>
+    <div><span style="background:#f7fbff"></span> 1 - Least resilient </div>
+    <div><span style="background:#c8dcf0"></span> 2 </div>
+    <div><span style="background:#73b2d8"></span> 3 </div>
+    <div><span style="background:#2979b9"></span> 4 </div>
+    <div><span style="background:#08306b"></span> 5 - Most resilient</div>
+`,
+"layer_publicfacilities": `
+    <h3>Public Facilities (hover over points for names)</h3>
+
+    <div style="display:flex; align-items:center; margin-bottom:6px;">
+        <img src="images/health.svg" style="width:20px; height:20px; margin-right:6px;">
+        Health Facility
+    </div>
+
+    <div style="display:flex; align-items:center; margin-bottom:6px;">
+        <img src="images/metro.svg" style="width:20px; height:20px; margin-right:6px;">
+        Metro Station
+    </div>
+
+    <div style="display:flex; align-items:center; margin-bottom:6px;">
+        <img src="images/recreation.svg" style="width:20px; height:20px; margin-right:6px;">
+        Recreation Facility
+    </div>
+
+    <div style="display:flex; align-items:center; margin-bottom:6px;">
+        <img src="images/school.svg" style="width:20px; height:20px; margin-right:6px;">
+        School
+    </div>
+`,
 };
 
 
