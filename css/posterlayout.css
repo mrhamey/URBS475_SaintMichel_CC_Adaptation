@@ -1,0 +1,162 @@
+body {
+    background-color: #FBAD96;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* TITLE */
+.page-title {
+    text-align: center;
+    padding: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* GRID LAYOUT */
+.layout-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* left = big, right = small */
+    grid-template-rows: 1fr auto;   /* map + legend */
+    height: calc(100vh - 80px);     /* leaves space for title */
+    gap: 20px;
+    padding: 0 20px 20px;
+    box-sizing: border-box;
+}
+
+.map-box {
+    background-color: #FFFFFF;   /* white box */
+    padding: 20px;               /* space around the map */
+    border-radius: 12px;         /* optional rounded corners */
+    box-shadow: 0 0 8px rgba(0,0,0,0.2); /* optional soft shadow */
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* MAP */
+#map {
+    width: 100%;
+    height: 100%;
+    border: 2px solid #ccc;
+}
+
+/* LEGEND UNDER MAP */
+#legend-container {
+    grid-column: 1 / 2;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background: #f7f7f7;
+    border-radius: 6px;
+}
+#legend-container div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+#legend-container span {
+    display: inline-block;
+    width: 22px;
+    height: 12px;
+    margin-right: 6px;
+    border: 1px solid #333;
+}
+#legend-container h3 {
+    margin: 10px 0 4px;
+    font-size: 15px;
+}
+
+/* --- RIGHT SIDE TEXT COLUMN --- */
+
+.right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.text-box {
+    background: #fafafa;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 15px;
+    flex: 1; /* equal height boxes */
+}
+
+/* --- LEGEND + LAYER TOGGLE SIDE-BY-SIDE PANEL --- */
+
+/* Wraps both the checkbox column AND the legend */
+#legend-panel {
+    grid-column: 1 / 2;                  /* stays under the map in the left column */
+    display: flex;
+    flex-direction: row;
+    gap: 25px;                           /* space between checkboxes and legend */
+    padding: 15px;
+    background: #fafafa;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+/* Left column: the checkboxes */
+#layerToggle {
+    min-width: 170px;
+    background: #ffffff;                 /* match map-box aesthetic */
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+#layerToggle h3 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+/* Right column: legend symbology */
+#legend-container {
+    flex: 1;
+    padding: 10px;
+    background: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+#legend-container div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+#legend-container span {
+    display: inline-block;
+    width: 22px;
+    height: 12px;
+    margin-right: 6px;
+    border: 1px solid #333;
+}
+
+#legend-container h3 {
+    margin: 10px 0 4px;
+    font-size: 15px;
+}
+
+/* square white background */
+.facility-wrapper {
+    width: 28px;
+    height: 28px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px; /* remove or change for sharp corners */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 3px rgba(0,0,0,0.2);
+}
+
+/* shrink the SVG */
+.facility-img {
+    width: 18px;   /* adjust to taste */
+    height: 18px;
+    display: block;
+}
