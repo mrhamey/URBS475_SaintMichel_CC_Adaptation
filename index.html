@@ -31,9 +31,10 @@
     <div id="layerToggle">
         <h3>Layers</h3>
         <label><input type="checkbox" data-layer="layer_VCC_clipped_rains_1"> Vulnerability to Heavy Rains</label><br>
+        <label><input type="checkbox" data-layer="layer_cuvettes"> Hydrological Surface Depressions</label><br>
         <label><input type="checkbox" data-layer="layer_VCC_clipped_drought_2"> Vulnerability to Drought</label><br>
         <label><input type="checkbox" data-layer="layer_VCC_clipped_storms_3"> Vulnerability to Destructive Storms</label><br>
-        <label><input type="checkbox" data-layer="layer_VCC_clipped_heat_6">Vulnerability to Heat Waves</label><br>
+        <label><input type="checkbox" data-layer="layer_VCC_clipped_heat_6"> Vulnerability to Heat Waves</label><br>
         <label><input type="checkbox" data-layer="layer_UHI_SM_5"> Urban Heat Island Effect</label><br>
         <label><input type="checkbox" data-layer="layer_LanduseSM_7"> Land Use in the Neighbourhood</label><br>
         <label><input type="checkbox" data-layer="layer_greenspaces_SM_8"> Green Spaces</label><br>
@@ -89,6 +90,7 @@ Click on the various layer toggles in the legend at the bottom left to explore v
         <script src="data/LanduseSM_7.js"></script>
         <script src="data/greenspaces_SM_8.js"></script>
         <script src="data/publicfacilities.js"></script>
+        <script src="data/cuvettes.js"></script>
         <script>
         var map = L.map('map', {
                 zoomControl: false,
@@ -269,7 +271,30 @@ Click on the various layer toggles in the legend at the bottom left to explore v
             style: style_VCC_clipped_rains_1_0,
         });
         bounds_group.addLayer(layer_VCC_clipped_rains_1);
-        
+       
+        function style_cuvettes_0() {
+    return {
+        pane: 'pane_cuvettes',
+        color: '#A6CEE3',
+        weight: 2,
+        fillOpacity: 0.9,
+        fillColor: '#A6CEE3',
+        interactive: true
+    };
+}
+        map.createPane('pane_cuvettes');
+        map.getPane('pane_cuvettes').style.zIndex = 409;
+        map.getPane('pane_cuvettes').style['mix-blend-mode'] = 'normal';
+        var layer_cuvettes = new L.geoJson(json_cuvettes, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_cuvettes',
+            layerName: 'layer_cuvettes',
+            pane: 'pane_cuvettes',
+            onEachFeature: function () {},
+            style: style_cuvettes_0,
+        });
+        bounds_group.addLayer(layer_cuvettes);
         
 
         function style_VCC_clipped_drought_2_0(feature) {
@@ -984,6 +1009,11 @@ const legends = {
         <div><span style="background:#73b2d8"></span> Moderate </div>
         <div><span style="background:#2979b9"></span> High</div>
         <div><span style="background:#08306b"></span> Major</div>
+    `,
+    "layer_cuvettes": `
+        <h3> Surface Hydrological Depressions (dips in surface wherein rain can accumulate)</h3>
+        <div><span style="background:#A6CEE3"></span> Depression</div>
+       
     `,
 
     "layer_VCC_clipped_drought_2": `
