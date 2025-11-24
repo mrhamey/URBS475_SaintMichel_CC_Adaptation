@@ -50,7 +50,7 @@
         <label><input type="checkbox" data-layer="layer_VCC_clipped_heat_6"> Heat</label><br>
         <label><input type="checkbox" data-layer="layer_UHI_SM_5"> UHI</label><br>
         <label><input type="checkbox" data-layer="layer_LanduseSM_7"> Land Use</label><br>
-        <label><input type="checkbox" data-layer="layer_greenspaces_SM_8"> Greenspaces</label><br>
+        <label><input type="checkbox" data-layer="layer_greenspaces_SM_8"> Green spaces</label><br>
         <label><input type="checkbox" data-layer="layer_publicfacilities"> Public Facilities</label><br>
     </div>
 
@@ -81,9 +81,10 @@
         <script src="data/publicfacilities.js"></script>
         <script>
         var map = L.map('map', {
-            zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[45.54589033423895,-73.64772832804752],[45.58328416065095,-73.57778589173132]]);
-        var hash = new L.Hash(map);
+                zoomControl: false,
+                maxZoom: 28,
+                minZoom: 1
+                }).setView([45.566165, -73.614744], 13.5);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
         // remove popup's row if "visible-with-data"
@@ -166,60 +167,7 @@
         });
         layer_OpenStreetMap_0;
         map.addLayer(layer_OpenStreetMap_0);
-        function pop_VCC_clipped_rains_1(feature, layer) {
-            var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['FID'] !== null ? autolinker.link(String(feature.properties['FID']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['PageName'] !== null ? autolinker.link(String(feature.properties['PageName']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['PageNumber'] !== null ? autolinker.link(String(feature.properties['PageNumber']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['ChaleurCl'] !== null ? autolinker.link(String(feature.properties['ChaleurCl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['SecheresCl'] !== null ? autolinker.link(String(feature.properties['SecheresCl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['TempeteCl'] !== null ? autolinker.link(String(feature.properties['TempeteCl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['PluiesCl'] !== null ? autolinker.link(String(feature.properties['PluiesCl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['CruesCl'] !== null ? autolinker.link(String(feature.properties['CruesCl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['ChaleurCat'] !== null ? autolinker.link(String(feature.properties['ChaleurCat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['PluiesCat'] !== null ? autolinker.link(String(feature.properties['PluiesCat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['SechereCat'] !== null ? autolinker.link(String(feature.properties['SechereCat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['CruesCat'] !== null ? autolinker.link(String(feature.properties['CruesCat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['TempeteCat'] !== null ? autolinker.link(String(feature.properties['TempeteCat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['SHAPE_Leng'] !== null ? autolinker.link(String(feature.properties['SHAPE_Leng']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['SHAPE_Area'] !== null ? autolinker.link(String(feature.properties['SHAPE_Area']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
-        }
+        
 
         function style_VCC_clipped_rains_1_0(feature) {
             if (feature.properties['PluiesCl'] >= 0.500000 && feature.properties['PluiesCl'] <= 1.500000 ) {
@@ -307,65 +255,12 @@
             dataVar: 'json_VCC_clipped_rains_1',
             layerName: 'layer_VCC_clipped_rains_1',
             pane: 'pane_VCC_clipped_rains_1',
-            onEachFeature: pop_VCC_clipped_rains_1,
+            onEachFeature: function () {},
             style: style_VCC_clipped_rains_1_0,
         });
         bounds_group.addLayer(layer_VCC_clipped_rains_1);
         
-        function pop_VCC_clipped_drought_2(feature, layer) {
-            var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['FID'] !== null ? autolinker.link(String(feature.properties['FID']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['PageName'] !== null ? autolinker.link(String(feature.properties['PageName']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['PageNumber'] !== null ? autolinker.link(String(feature.properties['PageNumber']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['ChaleurCl'] !== null ? autolinker.link(String(feature.properties['ChaleurCl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['SecheresCl'] !== null ? autolinker.link(String(feature.properties['SecheresCl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['TempeteCl'] !== null ? autolinker.link(String(feature.properties['TempeteCl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['PluiesCl'] !== null ? autolinker.link(String(feature.properties['PluiesCl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['CruesCl'] !== null ? autolinker.link(String(feature.properties['CruesCl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['ChaleurCat'] !== null ? autolinker.link(String(feature.properties['ChaleurCat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['PluiesCat'] !== null ? autolinker.link(String(feature.properties['PluiesCat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['SechereCat'] !== null ? autolinker.link(String(feature.properties['SechereCat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['CruesCat'] !== null ? autolinker.link(String(feature.properties['CruesCat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['TempeteCat'] !== null ? autolinker.link(String(feature.properties['TempeteCat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['SHAPE_Leng'] !== null ? autolinker.link(String(feature.properties['SHAPE_Leng']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['SHAPE_Area'] !== null ? autolinker.link(String(feature.properties['SHAPE_Area']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
-        }
+        
 
         function style_VCC_clipped_drought_2_0(feature) {
             if (feature.properties['SecheresCl'] >= 0.500000 && feature.properties['SecheresCl'] <= 1.500000 ) {
@@ -453,65 +348,12 @@
             dataVar: 'json_VCC_clipped_drought_2',
             layerName: 'layer_VCC_clipped_drought_2',
             pane: 'pane_VCC_clipped_drought_2',
-            onEachFeature: pop_VCC_clipped_drought_2,
+            onEachFeature: function () {},
             style: style_VCC_clipped_drought_2_0,
         });
         bounds_group.addLayer(layer_VCC_clipped_drought_2);
         
-        function pop_VCC_clipped_storms_3(feature, layer) {
-            var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['FID'] !== null ? autolinker.link(String(feature.properties['FID']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['PageName'] !== null ? autolinker.link(String(feature.properties['PageName']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['PageNumber'] !== null ? autolinker.link(String(feature.properties['PageNumber']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['ChaleurCl'] !== null ? autolinker.link(String(feature.properties['ChaleurCl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['SecheresCl'] !== null ? autolinker.link(String(feature.properties['SecheresCl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['TempeteCl'] !== null ? autolinker.link(String(feature.properties['TempeteCl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['PluiesCl'] !== null ? autolinker.link(String(feature.properties['PluiesCl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['CruesCl'] !== null ? autolinker.link(String(feature.properties['CruesCl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['ChaleurCat'] !== null ? autolinker.link(String(feature.properties['ChaleurCat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['PluiesCat'] !== null ? autolinker.link(String(feature.properties['PluiesCat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['SechereCat'] !== null ? autolinker.link(String(feature.properties['SechereCat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['CruesCat'] !== null ? autolinker.link(String(feature.properties['CruesCat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['TempeteCat'] !== null ? autolinker.link(String(feature.properties['TempeteCat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['SHAPE_Leng'] !== null ? autolinker.link(String(feature.properties['SHAPE_Leng']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['SHAPE_Area'] !== null ? autolinker.link(String(feature.properties['SHAPE_Area']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
-        }
+        
 
         function style_VCC_clipped_storms_3_0(feature) {
             if (feature.properties['TempeteCl'] >= 0.500000 && feature.properties['TempeteCl'] <= 1.500000 ) {
@@ -599,36 +441,13 @@
             dataVar: 'json_VCC_clipped_storms_3',
             layerName: 'layer_VCC_clipped_storms_3',
             pane: 'pane_VCC_clipped_storms_3',
-            onEachFeature: pop_VCC_clipped_storms_3,
+            onEachFeature: function () {},
             style: style_VCC_clipped_storms_3_0,
         });
         bounds_group.addLayer(layer_VCC_clipped_storms_3);
         
         
-        function pop_UHI_SM_5(feature, layer) {
-            var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['FID'] !== null ? autolinker.link(String(feature.properties['FID']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Temp_Class'] !== null ? autolinker.link(String(feature.properties['Temp_Class']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Shape_Area'] !== null ? autolinker.link(String(feature.properties['Shape_Area']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Shape_Leng'] !== null ? autolinker.link(String(feature.properties['Shape_Leng']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Legende'] !== null ? autolinker.link(String(feature.properties['Legende']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
-        }
+    
 
         function style_UHI_SM_5_0(feature) {
             switch(String(feature.properties['Legende'])) {
@@ -718,7 +537,7 @@
             dataVar: 'json_UHI_SM_5',
             layerName: 'layer_UHI_SM_5',
             pane: 'pane_UHI_SM_5',
-            onEachFeature: pop_UHI_SM_5,
+            onEachFeature: function () {},
             style: style_UHI_SM_5_0,
         });
         bounds_group.addLayer(layer_UHI_SM_5);
@@ -864,7 +683,7 @@
             dataVar: 'json_VCC_clipped_heat_6',
             layerName: 'layer_VCC_clipped_heat_6',
             pane: 'pane_VCC_clipped_heat_6',
-            onEachFeature: pop_VCC_clipped_heat_6,
+            onEachFeature: function () {},
             style: style_VCC_clipped_heat_6_0,
         });
         bounds_group.addLayer(layer_VCC_clipped_heat_6);
@@ -1015,7 +834,7 @@
             dataVar: 'json_LanduseSM_7',
             layerName: 'layer_LanduseSM_7',
             pane: 'pane_LanduseSM_7',
-            onEachFeature: pop_LanduseSM_7,
+            onEachFeature: function () {},
             style: style_LanduseSM_7_0,
         });
         bounds_group.addLayer(layer_LanduseSM_7);
@@ -1077,7 +896,7 @@ var layer_greenspaces_SM_8 = L.geoJSON(json_greenspaces_SM_8, {
     dataVar: 'json_greenspaces_SM_8',
     layerName: 'layer_greenspaces_SM_8',
     pane: 'pane_greenspaces_SM_8',
-    onEachFeature: pop_greenspaces_SM_8,
+    onEachFeature: function () {},
     style: style_greenspaces_SM_8_2   // only one style now
 });
 
@@ -1149,7 +968,7 @@ var layer_publicfacilities = L.geoJson(json_publicfacilities, {
 // --------------------
 const legends = {
     "layer_VCC_clipped_rains_1": `
-        <h3>Rains</h3>
+        <h3> Vunerability to Heavy Rains</h3>
         <div><span style="background:#f7fbff"></span> 0.5–1.5</div>
         <div><span style="background:#c8dcf0"></span> 1.5–2.5</div>
         <div><span style="background:#73b2d8"></span> 2.5–3.5</div>
@@ -1158,45 +977,45 @@ const legends = {
     `,
 
     "layer_VCC_clipped_drought_2": `
-        <h3>Drought</h3>
-        <div><span style="background:#00204d"></span> 0.5–1.5</div>
-        <div><span style="background:#414d6b"></span> 1.5–2.5</div>
-        <div><span style="background:#7d7c78"></span> 2.5–3.5</div>
-        <div><span style="background:#beaf6f"></span> 3.5–4.5</div>
-        <div><span style="background:#ffea46"></span> 4.5–5.5</div>
+        <h3>Vulnerability to Drought</h3>
+        <div><span style="background:#00204d"></span> Insignificant</div>
+        <div><span style="background:#414d6b"></span> Minor</div>
+        <div><span style="background:#7d7c78"></span> Moderate </div>
+        <div><span style="background:#beaf6f"></span> High</div>
+        <div><span style="background:#ffea46"></span> Major </div>
     `,
 
     "layer_VCC_clipped_storms_3": `
-        <h3>Storms</h3>
-        <div><span style="background:#f7fcf5"></span> 0.5–1.5</div>
-        <div><span style="background:#c9eac2"></span> 1.5–2.5</div>
-        <div><span style="background:#7bc77c"></span> 2.5–3.5</div>
-        <div><span style="background:#2a924b"></span> 3.5–4.5</div>
-        <div><span style="background:#00441b"></span> 4.5–5.5</div>
+        <h3>Vulnerability to Destructive Storms</h3>
+        <div><span style="background:#f7fcf5"></span> Insignificant</div>
+        <div><span style="background:#c9eac2"></span> Minor</div>
+        <div><span style="background:#7bc77c"></span> Moderate</div>
+        <div><span style="background:#2a924b"></span> High</div>
+        <div><span style="background:#00441b"></span> Major</div>
     `,
 
     "layer_VCC_clipped_heat_6": `
-        <h3>Heat</h3>
-        <div><span style="background:#fff5f0"></span> 0.5–1.5</div>
-        <div><span style="background:#fcbfa5"></span> 1.5–2.5</div>
-        <div><span style="background:#fb7050"></span> 2.5–3.5</div>
-        <div><span style="background:#d32020"></span> 3.5–4.5</div>
-        <div><span style="background:#67000d"></span> 4.5–5.5</div>
+        <h3>Vulnerability to Heat Waves</h3>
+        <div><span style="background:#fff5f0"></span> Insignificant</div>
+        <div><span style="background:#fcbfa5"></span> Minor</div>
+        <div><span style="background:#fb7050"></span> Moderate</div>
+        <div><span style="background:#d32020"></span> High</div>
+        <div><span style="background:#67000d"></span> Major</div>
     `,
 
     "layer_UHI_SM_5": `
-        <h3>Urban Heat Island</h3>
+        <h3>Exposure to Urban Heat Island Effect</h3>
         <div><span style="background:#ca0020"></span> Hotspot</div>
-        <div><span style="background:#f4a582"></span> Above average</div>
-        <div><span style="background:#f7f7f7"></span> Near average</div>
-        <div><span style="background:#92c5de"></span> Cooler</div>
+        <div><span style="background:#f4a582"></span> Above average temperature</div>
+        <div><span style="background:#f7f7f7"></span> Near average temperature</div>
+        <div><span style="background:#92c5de"></span> Cooler temperature</div>
         <div><span style="background:#0571b0"></span> Cool island</div>
     `,
 
     "layer_LanduseSM_7": `
-        <h3>Land Use</h3>
+        <h3>Land Use types </h3>
         <div><span style="background:#faf3ca"></span> Residential</div>
-        <div><span style="background:#529978"></span> Park</div>
+        <div><span style="background:#529978"></span> Large Park</div>
         <div><span style="background:#de502a"></span> Mixed</div>
         <div><span style="background:#9a9650"></span> Institutional</div>
         <div><span style="background:#cfcad9"></span> Employment</div>
@@ -1205,7 +1024,7 @@ const legends = {
     `,
 
     "layer_greenspaces_SM_8": `
-        <h3>Green spaces</h3>
+        <h3>Green spaces (hover on map to see names)</h3>
         <div><span style="background:#b2df8a;border:1px solid #333"></span> Green Space</div>
     `,
 
