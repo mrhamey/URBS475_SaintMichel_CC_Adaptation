@@ -11,52 +11,62 @@
         <link rel="stylesheet" href="css/posterlayout.css"> 
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/leaflet.photon.css">
-        <style>
-        #map {
-            width: 100%;
-            height: 100%;
-        }
-        </style>
+        
         <title></title>
     </head>
     <body>
 
     <div class="page-title">
-    Climate Adaptation Measures in Saint Michel, Montréal, QC    </div>
+    Exploring Climate Adaptation Measures in Saint Michel, Montréal, QC    </div>
 
-    <div class="layout-container">
+ <div class="layout-container">
 
-        <!-- MAP (top-left, 2/3 area) -->
+    <div class="left-column">
         <div class="map-box">
-    <div id="map"></div>
+            <div id="map"></div>
         </div>
 
-        <!-- RIGHT COLUMN (text boxes) -->
-        <div class="right-column">
-            <div class="text-box">Introduction and Neighbourhood Overview</div>
-            <div class="text-box">Hazard Identification</div>
-            <div class="text-box">Current Adaptation Measures</div>
-            <div class="text-box">Proposed Adaptation Measures</div>
-        </div>
-
-        <!-- LEGEND UNDER MAP -->
-       <div id="legend-panel">
+        <div id="legend-panel">
 
     <div id="layerToggle">
         <h3>Layers</h3>
-        <label><input type="checkbox" data-layer="layer_VCC_clipped_rains_1"> Rains</label><br>
-        <label><input type="checkbox" data-layer="layer_VCC_clipped_drought_2"> Drought</label><br>
-        <label><input type="checkbox" data-layer="layer_VCC_clipped_storms_3"> Storms</label><br>
-        <label><input type="checkbox" data-layer="layer_VCC_clipped_heat_6"> Heat</label><br>
-        <label><input type="checkbox" data-layer="layer_UHI_SM_5"> UHI</label><br>
-        <label><input type="checkbox" data-layer="layer_LanduseSM_7"> Land Use</label><br>
-        <label><input type="checkbox" data-layer="layer_greenspaces_SM_8"> Green spaces</label><br>
+        <label><input type="checkbox" data-layer="layer_VCC_clipped_rains_1"> Vulnerability to Heavy Rains</label><br>
+        <label><input type="checkbox" data-layer="layer_VCC_clipped_drought_2"> Vulnerability to Drought</label><br>
+        <label><input type="checkbox" data-layer="layer_VCC_clipped_storms_3"> Vulnerability to Destructive Storms</label><br>
+        <label><input type="checkbox" data-layer="layer_VCC_clipped_heat_6">Vulnerability to Heat Waves</label><br>
+        <label><input type="checkbox" data-layer="layer_UHI_SM_5"> Urban Heat Island Effect</label><br>
+        <label><input type="checkbox" data-layer="layer_LanduseSM_7"> Land Use in the Neighbourhood</label><br>
+        <label><input type="checkbox" data-layer="layer_greenspaces_SM_8"> Green Spaces</label><br>
         <label><input type="checkbox" data-layer="layer_publicfacilities"> Public Facilities</label><br>
     </div>
 
     <div id="legend-container"></div>
 
 </div>
+    </div>
+
+        <!-- RIGHT COLUMN (text boxes) -->
+        <div class="right-column">
+            <div class="text-box">Introduction and Neighbourhood Overview<br><br><br><br><br><br><br><br><br><br></div>
+            <div class="text-box">Hazard Identification
+                <br> <br> <p>
+Various climate hazards face the neighbourhood of Saint-Michel. While elevation and distance from the rivers’ edge may reduce the risk of river flood events, the neighbourhood's geography and urban form still expose certain areas of the neighbourhood to elevated vulnerability to risk like heat waves, drought, and heavy rains. Factors like the urban heat island effect and local depressions can make this even worse for residents. 
+<br><br>
+Click on the various layer toggles in the legend at the bottom left to explore vulnerability to climate-related hazards. 
+</p>
+            </div>
+            <div class="text-box">Current Adaptation Measures <br><br>
+                The current adaptation measures implemented by the borough tend to be more general. Climate Change Adaptation Plan for the Montréal Urban Agglomeration 2015-2020 mainly lists initiatives related to urban greening and water management, and many reported infrastructure measures refer only to improving its resilience without specific examples. However, various bylaws have been adopted on water conservation, tree planting standards, and roof renovation (white and green roofs). Site-specific adaptation measures include the use of rainwater harvesting and retention at the Arena de Saint Michel, or the construction of a large lake as part of the design of Parc Frédérique Bach meant to capture surface runoff from heavy rains and slow their entrance into the wastewater under-capacity wastewater systems. 
+
+            </div>
+
+
+
+
+            <div class="text-box">Proposed Adaptation Measures <br><br><br><br><br><br><br><br><br><br></div>
+        </div>
+
+        
 
 
     </div>
@@ -969,11 +979,11 @@ var layer_publicfacilities = L.geoJson(json_publicfacilities, {
 const legends = {
     "layer_VCC_clipped_rains_1": `
         <h3> Vunerability to Heavy Rains</h3>
-        <div><span style="background:#f7fbff"></span> 0.5–1.5</div>
-        <div><span style="background:#c8dcf0"></span> 1.5–2.5</div>
-        <div><span style="background:#73b2d8"></span> 2.5–3.5</div>
-        <div><span style="background:#2979b9"></span> 3.5–4.5</div>
-        <div><span style="background:#08306b"></span> 4.5–5.5</div>
+        <div><span style="background:#f7fbff"></span> Insignificant</div>
+        <div><span style="background:#c8dcf0"></span> Minor</div>
+        <div><span style="background:#73b2d8"></span> Moderate </div>
+        <div><span style="background:#2979b9"></span> High</div>
+        <div><span style="background:#08306b"></span> Major</div>
     `,
 
     "layer_VCC_clipped_drought_2": `
