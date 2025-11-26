@@ -40,7 +40,7 @@
         <label><input type="checkbox" data-layer="layer_greenspaces_SM_8"> Green Spaces</label><br>
         <label><input type="checkbox" data-layer="layer_publicfacilities"> Public Facilities</label><br>
         <label><input type="checkbox" data-layer="layer_CISR">Canadian Index of Social Resilience 2021</label><br>
-        <label><input type="checkbox" data-layer="layer_CISV">Canadian Index of Social Vulnerability 2021</label>
+        <label><input type="checkbox" data-layer="layer_CISV">Canadian Index of Social Vulnerability 2021</label><br>
 
     </div>
 
@@ -96,6 +96,7 @@ Click on the various layer toggles in the legend at the bottom left to explore v
         <script src="data/cuvettes.js"></script>
         <script src="data/CISV.js"></script>
         <script src="data/CISR.js"></script>
+        <script src="data/adaptationmeasures.js"></script>
         <script>
         var map = L.map('map', {
                 zoomControl: false,
@@ -890,6 +891,94 @@ var layer_greenspaces_SM_8 = L.geoJSON(json_greenspaces_SM_8, {
 
 bounds_group.addLayer(layer_greenspaces_SM_8);
 
+
+
+
+///Adaptationmeasures 
+
+function style_adaptationmeasures_0(feature) {
+    const status = feature.properties.implementation;
+
+    if (status === "Proposed") {
+        return {
+            pane: 'pane_adaptationmeasures',
+            radius: 6,
+            color: '#1f78b4',
+            weight: 1,
+            fillColor: '#a6cee3',
+            fillOpacity: 1,
+            interactive: true
+        };
+    }
+    if (status === "Improved") {
+        return {
+            pane: 'pane_adaptationmeasures',
+            radius: 6,
+            color: '#0b4d7a',
+            weight: 1,
+            fillColor: '#1f78b4',
+            fillOpacity: 1,
+            interactive: true
+        };
+    }
+    return {   // Implemented
+        pane: 'pane_adaptationmeasures',
+        radius: 6,
+        color: '#042b63',
+        weight: 1,
+        fillColor: '#084594',
+        fillOpacity: 1,
+        interactive: true
+    };
+}
+
+function pop_adaptationmeasures(feature, layer) {
+
+    // Hover → show only the NAME
+    const name = feature.properties.name || "";
+    layer.bindTooltip(name, {
+        sticky: true,
+        direction: "top",
+        opacity: 0.9,
+        className: "adaptation-hover-label"
+    });
+
+    // Click → show popup with description
+    const description = feature.properties.description || "No description provided.";
+    const popupContent = `
+        <b>${name}</b><br><br>
+        ${description}
+    `;
+
+    layer.bindPopup(popupContent, {maxHeight: 300});
+}
+
+map.createPane('pane_adaptationmeasures');
+map.getPane('pane_adaptationmeasures').style.zIndex = 499;
+map.getPane('pane_adaptationmeasures').style['mix-blend-mode'] = 'normal';
+
+var layer_adaptationmeasures = new L.geoJson(json_adaptationmeasures, {
+    attribution: '',
+    interactive: true,
+    dataVar: 'json_adaptationmeasures',
+    layerName: 'layer_adaptationmeasures',
+    pane: 'pane_adaptationmeasures',
+    onEachFeature: pop_adaptationmeasures,
+    pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng, style_adaptationmeasures_0(feature));
+    }
+});
+
+bounds_group.addLayer(layer_adaptationmeasures);
+window.layer_adaptationmeasures = layer_adaptationmeasures;
+map.addLayer(layer_adaptationmeasures);
+
+
+
+
+
+
+
 // --- Public Facilities Layer ---  
 
 // Hover label styling
@@ -941,7 +1030,9 @@ var layer_publicfacilities = L.geoJson(json_publicfacilities, {
     onEachFeature: onEachPublicFacility,
     pointToLayer: function (feature, latlng) {
         return L.marker(latlng, {
-            icon: iconForFacility(feature)
+            icon: iconForFacility(feature),
+            pane: 'pane_publicfacilities'
+
         });
     }
 });
@@ -1000,6 +1091,7 @@ var layer_CISR = L.geoJson(json_CISR, {
 
 window.layer_CISR = layer_CISR;
 bounds_group.addLayer(layer_CISR);
+
 
 
 
@@ -1093,6 +1185,13 @@ const legends = {
     <div><span style="background:#2979b9"></span> 4 </div>
     <div><span style="background:#08306b"></span> 5 - Most resilient</div>
 `,
+"layer_adaptationmeasures": `
+    <h3>Adaptation Measures</h3>
+    <div><span style="background:#a6cee3"></span> Proposed</div>
+    <div><span style="background:#1f78b4"></span> Improved</div>
+    <div><span style="background:#084594"></span> Implemented</div>
+`,
+
 "layer_publicfacilities": `
     <h3>Public Facilities (hover over points for names)</h3>
 
@@ -1124,8 +1223,18 @@ const legends = {
 // ------------------------------
 function updateLegend() {
     const legendDiv = document.getElementById("legend-container");
-    legendDiv.innerHTML = ""; // Clear old legend
+    legendDiv.innerHTML = "";  // Clear old legend
 
+    // ----------------------------------------
+    // 1. ALWAYS show adaptation measures legend
+    // ----------------------------------------
+    if (legends["layer_adaptationmeasures"]) {
+        legendDiv.innerHTML += legends["layer_adaptationmeasures"];
+    }
+
+    // ------------------------------------------------
+    // 2. THEN show the legend for the toggled-on layer
+    // ------------------------------------------------
     document.querySelectorAll('#layerToggle input[type="checkbox"]').forEach(cb => {
         if (cb.checked) {
             const layerName = cb.dataset.layer;
@@ -1135,6 +1244,7 @@ function updateLegend() {
         }
     });
 }
+
 
 // Initial load:
 updateLegend();
