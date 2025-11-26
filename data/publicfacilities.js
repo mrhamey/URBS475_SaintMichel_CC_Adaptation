@@ -288,9 +288,6 @@ var json_publicfacilities =
         "adaptationmeasures": "health"
       }
     },
-    {
-      "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-73.608301, 45.565406] },
     
     
 
