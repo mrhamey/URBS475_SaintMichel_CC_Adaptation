@@ -291,14 +291,8 @@ var json_publicfacilities =
     {
       "type": "Feature",
       "geometry": { "type": "Point", "coordinates": [-73.608301, 45.565406] },
-      "properties": {
-        "name": "CLSC de Saint-Michel",
-        "longitude": -73.608301,
-        "latitude":  45.565406,
-        "facilitytype": "health",
-        "adaptationmeasures": "health"
-      }
-    }
+    
+    
 
 
 
